@@ -1,5 +1,6 @@
 import { KEYCODES } from '../../assets/js/keycodes';
 import $ from 'jquery';
+import '../../assets/js/easings';
 
 let ANIMATIONDURATION = 200;
 
@@ -8,6 +9,14 @@ if (window.matchMedia('(prefers-reduced-motion)').matches) {
 }
 
 const ANIMATIONEASING = 'easeInOutCubic';
+
+export function demoInit() {
+  $(document).ready(() => {
+    $('.js-expandable-box').each((_, element) => {
+      new FefExpandableBox($(element));
+    });
+  });
+}
 
 export function init() {
   $('.js-expandable-box')

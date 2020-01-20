@@ -3,7 +3,7 @@ import { PropsTable } from '@storybook/components';
 import LinkTo from '@storybook/addon-links/react';
 import expandableBox from './expandable-box.twig';
 import './expandable-box.scss';
-import './test.js';
+import { demoInit } from './expandable-box.js';
 
 <Meta title="Atoms/Expandable-Box" />
 
@@ -13,6 +13,7 @@ import './test.js';
 <Preview>
   <Story name="Default">
     {() => {
+      demoInit();
       return expandableBox({
         description: 'Content goes here'
       });
