@@ -10,7 +10,6 @@ if (window.matchMedia('(prefers-reduced-motion)').matches) {
 const ANIMATIONEASING = 'easeInOutCubic';
 
 export function init() {
-  console.log("init!");
   $('.js-expandable-box')
     .filter((_, element) => !$(element).data('expandable-box-initialized'))
     .each((_, element) => {
@@ -26,7 +25,6 @@ export class FefExpandableBox {
    * @param $element jQuery.element
    */
   constructor($element) {
-    console.log("CONSTRUCTED!");
     this.$element = $element;
     this.$arrow = $element.find('.expand-icon');
     this.$body = $element.find('.js-expandable-box--body');
