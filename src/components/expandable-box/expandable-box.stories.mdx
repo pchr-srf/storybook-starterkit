@@ -1,0 +1,39 @@
+import { Meta, Story, Preview, Source } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import LinkTo from '@storybook/addon-links/react';
+import expandableBox from './expandable-box.twig';
+import './expandable-box.scss';
+import './test.js';
+
+<Meta title="Atoms/Expandable-Box" />
+
+# Expandable Box
+
+
+<Preview>
+  <Story name="Default">
+    {() => {
+      return expandableBox({
+        description: 'Content goes here'
+      });
+    }}
+  </Story>
+</Preview>
+
+## Template Props
+
+<PropsTable
+  rows={[
+    {
+      name: 'styleModifier',
+      type: { summary: 'string' },
+      required: false,
+      description: '',
+    },
+    {
+      name: 'description',
+      type: { summary: 'string' },
+      description: 'Content of the box.'
+    },
+  ]}
+/>

@@ -1,0 +1,62 @@
+@import "../../assets/css/variables";
+@import "../../assets/css/mixins";
+
+.expand-icon {
+  display: flex;
+
+  .expand-icon__icon {
+    @include caret('white', 'down', 'medium');
+  }
+}
+
+.expand-icon__text--to-open,
+.expand-icon__a11y-open  {
+  display: block;
+}
+
+.expand-icon__text--to-close,
+.expand-icon__a11y-close {
+  display: none;
+}
+
+.expand-icon--accentuated {
+  .expand-icon__icon {
+    @include caret('red', 'down', 'medium');
+  }
+}
+
+.expand-icon--dark {
+  .expand-icon__icon {
+    @include caret('grey', 'down', 'medium');
+  }
+}
+
+.expand-icon--with-text {
+  display: flex;
+  align-items: center;
+
+  color: $color-srf-red-600;
+  @include fontSize(16);
+  font-family: $font-regular;
+
+  .expand-icon__icon {
+    margin-left: 8px;
+  }
+}
+
+// Must come after other modifiers due to specifity of the icon rotation
+.expand-icon--open {
+  .expand-icon__icon {
+    transform: rotate(180deg);
+  }
+
+  .expand-icon__text--to-open,
+  .expand-icon__a11y-open {
+    display: none;
+  }
+
+  .expand-icon__text--to-close,
+  .expand-icon__a11y-close {
+    display: block;
+  }
+}

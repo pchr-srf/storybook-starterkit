@@ -1,0 +1,433 @@
+@import 'variables';
+@import 'breakpoints';
+
+/* let's an element break out of its parent container and stretch to the full width */
+@mixin fullwidth-element {
+  width: 100%;
+  position: relative;
+
+  @include tablet-up {
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+}
+
+/* padding for text elements in the article */
+@mixin article-text-padding {
+  padding: 0 $article-offset;
+}
+
+
+/* reusable parts of text-lists */
+@mixin text-list-defaults {
+  margin: 12px 0 24px;
+  list-style-type: none;
+  counter-reset: item;
+
+  @include article-text-padding;
+  @include smartphone {
+    margin: 8px 0 20px;
+  }
+
+  li {
+    position: relative;
+    margin: 12px 0;
+    padding-left: 1.5em;
+
+    @include smartphone {
+      margin: 8px 0;
+    }
+  }
+}
+
+@mixin text-list-ordered-defaults {
+  & > li {
+    padding-left: 2em;
+
+    &::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: $font-medium;
+      content: counter(item) '.';
+      color: $color-srf-red-600;
+      counter-increment: item;
+    }
+  }
+}
+
+@mixin text-list-unordered-defaults {
+  & > li::before {
+    position: absolute;
+    left: 2px;
+    top: 11px;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $color-srf-red-600;
+    content: ' ';
+  }
+}
+
+/*
+ *
+ * @mixin fullwidth-container
+ *
+ * This lets an element break out of its parent container and stretch it to the width of the wrapping card container
+ *
+ * This is just **plain simple negative margin magic**
+ * It lets the element break out and size/move it to the borders of the card-container
+ *
+ *       @tablet = here we have to substract the spacing on the right and left from the viewport-width (100vw)
+ *                 … therefore 100vw minus 100% (the width of the parent = content-container)
+ *                 … diveded by 2 ('cause spacing is left and right) AND multiplied by -1 to get a negative number
+ *      @desktop = same-same as tablet, but additional 32px of spacing
+ * @desktop-wide = same-same as tablet, but parent is always 1200px
+ *
+ */
+
+@mixin fullwidth-container {
+  @include tablet {
+    margin-right: calc(((100vw - 100%) / 2) * -1);
+    margin-left:  calc(((100vw - 100%) / 2) * -1);
+  }
+  @include desktop {
+    margin-right: calc((((100vw - 100%) / 2) - 32px) * -1);
+    margin-left:  calc((((100vw - 100%) / 2) - 32px) * -1);
+  }
+  @include desktop-wide {
+    margin-right: calc((1200px - 100%) / 2 * -1);
+    margin-left:  calc((1200px - 100%) / 2 * -1);
+  }
+}
+
+@mixin content-column-default {
+  margin: 0 auto;
+
+  @include tablet {
+    max-width: 720px;
+    padding: 0 $article-offset;
+  }
+
+  @include desktop-up {
+    max-width: 728px;
+  }
+}
+
+@mixin article-element-indentation {
+
+  @include tablet {
+    margin-left: auto;
+    margin-right: auto;
+    width: 476px;
+  }
+
+  @include desktop-up {
+    margin-left: auto;
+    margin-right: auto;
+    width: 516px;
+  }
+}
+
+@mixin text-link-defaults {
+  border-bottom: 1px solid $color-srf-red-600;
+
+  &:hover {
+    border-bottom: 1px solid $color-srf-red-800;
+  }
+
+  &:active {
+    border-bottom: 1px solid $color-srf-red-900;
+  }
+}
+
+@mixin button-label {
+  position: relative;
+  display: block;
+  @include fontSize(16);
+  font-family: $font-regular;
+  color: $color-srf-warmgrey-1100;
+  background-color: $color-srf-warmgrey-50;
+  margin: 0 0 2px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  padding: 14px 16px 14px 48px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $color-srf-warmgrey-100;
+  }
+}
+
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin spinner($line-width: 1px, $dash-color: $color-srf-red-500, $bg-color: $color-srf-warmgrey-100, $parent-color: $color-srf-warmgrey-900) {
+
+  position: relative;
+  height: 24px;
+  width: 24px;
+  animation: rotate360Animation 2s linear infinite;
+  border: $line-width $dash-color solid;
+  border-radius: 50%;
+
+  /* NON-RETINA - spinner looks ugly with the grey half-circles, so hide them by painting them in the same color as the parent (see param) */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    box-sizing: border-box;
+
+    animation: rotate360Animation 2s infinite ease;
+
+    width: calc(50% + #{$line-width * 3});
+    height: calc(100% + #{$line-width * 6});
+
+    top: -#{$line-width * 3};
+
+    border: #{$line-width * 3} solid $parent-color;
+    background-color: $parent-color;
+  }
+
+  &::before {
+    animation-delay: 1.5s;
+    border-radius: 9999px 0 0 9999px;
+    border-right: none;
+    left: -#{$line-width * 3};
+    transform-origin: 100% 50%;
+  }
+
+  &::after {
+    border-radius: 0 9999px 9999px 0;
+    border-left: none;
+    left: 50%;
+    transform-origin: 0 50%;
+  }
+
+
+  /* RETINA: show the grey half-circles */
+  @media screen and (-webkit-min-device-pixel-ratio: 2 ), (min-resolution: 192dpi), (min-resolution: 2dppx), (-o-min-device-pixel-ratio: 20/10) {
+    &::before,
+    &::after {
+      width: calc(50% + #{$line-width});
+      height: calc(100% + #{$line-width * 2});
+      top: -#{$line-width};
+      border-width: #{$line-width};
+      border-color: $bg-color;
+      background-color: transparent;
+    }
+
+    &::before {
+      left: -#{$line-width};
+    }
+  }
+}
+
+@mixin offscreen-non-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@mixin forceAspectRatio($ratio) {
+  $padding: 100%;
+
+  @if $ratio == '1:1' or $ratio == 'square' {
+    $padding: 100%;
+  } @else if $ratio == '16:9' or $ratio == 'widescreen' {
+    $padding: 56.25%;
+  } @else if $ratio == '2:1' {
+    $padding: 50%;
+  } @else if $ratio == '3:1' {
+    $padding: 33.33%;
+  }
+
+  &::before {
+    content: "";
+    width: 1px;
+    margin-left: -1px;
+    float: left;
+    height: 0;
+    padding-top: $padding;
+  }
+}
+
+@mixin breakLongWords {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+
+@mixin momentumScrolling($vertical: true, $horizontal: false) {
+  @include desktop-down {
+    @if $vertical == true {
+      overflow-y: scroll;
+    }
+    @if $horizontal == true {
+      overflow-x: scroll;
+    }
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@mixin caret($color: 'white', $direction: 'down', $size: 'medium', $transform: '') {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform .2s ease-in-out;
+
+  @if $color == 'red' {
+    background-image: url(/assets/icons/arrows/caret_red.svg);
+  } @else if $color == 'grey' {
+    background-image: url(/assets/icons/arrows/caret_grey.svg);
+  } @else if $color == 'dark' {
+    background-image: url(/assets/icons/arrows/caret_dark.svg);
+  } @else {
+    background-image: url(/assets/icons/arrows/caret_white.svg);
+  }
+
+  @if $direction == 'up' {
+    transform: #{$transform} rotate(180deg);
+  } @else if $direction == 'left' {
+    transform: #{$transform} rotate(90deg);
+  } @else if $direction == 'right' {
+    transform: #{$transform} rotate(-90deg);
+  } @else {
+    transform: #{$transform} rotate(0deg);
+  }
+
+  @if $size == 'large' {
+    background-size: 100%;
+  } @else if $size == 'small' {
+    background-size: 53%;
+  } @else if $size == 'tiny' {
+    background-size: 38%;
+  } @else {
+    background-size: 70%;
+  }
+}
+
+/* example: @include customPropWithFallback('color', '--teaser-color-info-updated', $color-srf-warmgrey-800); */
+@mixin customPropWithFallback($prop, $customprop, $fallback-value) {
+  #{$prop}: #{$fallback-value};
+
+  @supports (--srf: cool) {
+    #{$prop}: var(#{$customprop}, #{$fallback-value});
+  }
+}
+
+/*
+ * TARGETED BROWSER: IE 11
+ *
+ * this mixin addresses the flexbug #7 issue: flex-basis doesn't account for box-sizing: border-box in IE11
+ * workaround: instead of setting an explicit flex-basis value, use auto, and then set an explicit width or height.
+ *
+ * normally this mixin would go into _shame.scss but since it's also used in the critical css, it's placed here
+ *
+ * @see Flexbug #7 (https://github.com/philipwalton/flexbugs#flexbug-7)
+ */
+
+@mixin IESafeFlexBasis($width: 100%) {
+  flex-basis: auto;
+  width: $width;
+}
+
+@mixin fontSize($font-size) {
+  font-size: $font-size + 0px;
+
+  @if ($font-size > 24) {
+    letter-spacing: normal;
+  } @else if($font-size >= 20) {
+    letter-spacing: 0.2px;
+  } @else if($font-size >= 12) {
+    letter-spacing: 0.4px;
+  }
+}
+
+/**
+ * Usage:
+ *    @include columnCalculator(max-width, 4);
+ *
+ * results in
+ *    @include smartphone {
+ *      max-width: calc(4 * ((100% - 11 * 8px) / 12) + 3 * 8px);
+ *    }
+ * (and the other breakpoints as well)
+ *
+ */
+@mixin columnCalculator($property, $nr-of-columns, $with-gutter: false) {
+  @include smartphone {
+    #{property}: col($nr-of-columns, 8px, $with-gutter);
+  }
+
+  @include tablet {
+    #{property}: col($nr-of-columns, 24px, $with-gutter);
+  }
+
+  @include desktop {
+    #{property}: col($nr-of-columns, 24px, $with-gutter);
+  }
+
+  @include desktop-widest {
+    #{property}: col($nr-of-columns, 32px, $with-gutter);
+  }
+}
+
+@function col($nr-of-columns, $gutter-size, $with-gutter: false) {
+  @if ($with-gutter) {
+    @return calc(#{$nr-of-columns} * ((100% - 11 * #{$gutter-size}) / 12) + #{$nr-of-columns + 1} * #{$gutter-size});
+  } @else {
+    @return calc(#{$nr-of-columns} * ((100% - 11 * #{$gutter-size}) / 12) + #{$nr-of-columns - 1} * #{$gutter-size});
+  }
+}
+
+/* Use defined Animation AND disable the animation when the User has enabled «Reduced Motion» OS-Setting */
+@mixin sickAnimation {
+  @content;
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@mixin reducedMotion {
+  @media screen and (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+/**
+ * Prevents scrollbars with CSS only. Might not work on certain browsers or
+ * lead to side effects. Use at your own risk!
+ *
+ * Usage:
+ *    @include preventScrollbars();
+ */
+@mixin preventScrollbars {
+  // webkit-based
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  // firefox 64+
+  scrollbar-width: none;
+
+  // edge/ie (autohiding, but they appear again on interaction)
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}

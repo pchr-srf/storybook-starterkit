@@ -1,0 +1,43 @@
+import { Meta, Story, Preview, Source } from '@storybook/addon-docs/blocks';
+import { PropsTable } from '@storybook/components';
+import LinkTo from '@storybook/addon-links/react';
+import expandIcon from './expand-icon.twig';
+import styles from './expand-icon.scss';
+
+<Meta title="Atoms/Expand Icon" />
+
+# Expand Icon
+
+
+<Preview>
+  <Story name="Default">
+    {() => {
+      return expandIcon({});
+    }}
+  </Story>
+</Preview>
+
+## Template Props
+
+<PropsTable
+  rows={[
+    {
+      name: 'styleModifier',
+      type: { summary: 'string' },
+      required: false,
+      description: '',
+    },
+    {
+      name: 'textOpen',
+      type: { summary: 'string' },
+      description: 'Text that indicates that an element is expendable',
+      defaultValue: { summary: 'Navigation aufklappen' },
+    },
+    {
+      name: 'textClose',
+      type: { summary: 'string' },
+      description: 'Text that indicates that an element is closeable',
+      defaultValue: { summary: 'Navigation zuklappen' },
+    },
+  ]}
+/>

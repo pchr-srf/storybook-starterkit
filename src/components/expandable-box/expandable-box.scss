@@ -1,0 +1,178 @@
+@import "../../assets/css/variables";
+@import "../../assets/css/mixins";
+
+$expandable-box-max-width: 516px;
+$expandable-box-margin-vertical-mobile: 32px;
+$expandable-box-margin-vertical-desktop: 48px;
+$expandable-box-margin-horizontal: 8px;
+$expandable-box-padding-mobile: 16px;
+$expandable-box-padding-desktop: 24px;
+
+.expandable-box {
+  background-color: $color-srf-warmgrey-50;
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+  max-width: $expandable-box-max-width;
+  margin: $expandable-box-margin-vertical-mobile $expandable-box-margin-horizontal;
+
+  @include tablet-up {
+    margin-top: $expandable-box-margin-vertical-desktop;
+    margin-bottom: $expandable-box-margin-vertical-desktop;
+  }
+}
+
+@media (min-width: #{$expandable-box-max-width + 2 * $expandable-box-margin-horizontal}) {
+  .expandable-box {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.expandable-box__header {
+  display: flex;
+  flex-direction: row;
+  padding: $expandable-box-padding-mobile;
+  cursor: pointer;
+
+  // prevent blue focus-flash on Android browsers
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover {
+    background-color: $color-srf-warmgrey-100;
+  }
+
+  &:focus,
+  &:active {
+    background-color: $color-srf-warmgrey-200;
+  }
+
+  @include tablet-up {
+    padding: $expandable-box-padding-desktop;
+  }
+}
+
+.expandable-box__expand-icon {
+  flex: 0 0 auto;
+  align-self: center;
+  padding-left: 16px;
+  margin-left: auto;  // if there's only an icon it'll position itself on the right side of the container with this trick
+  margin-right: -3px;
+}
+
+.expandable-box__body {
+  display: none;
+}
+
+.expandable-box__content {
+  padding: 0 $expandable-box-padding-mobile $expandable-box-padding-mobile;
+  margin: 0;
+  @include fontSize(16);
+  font-family: $font-light;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  color: $color-srf-warmgrey-1100;
+
+  // prevent inner elements of creating a bigger gap between header and content
+  // and prevent last element creating a larger bottom border
+  > p {
+    margin-bottom: 16px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  > ul {
+    @include text-list-defaults;
+    @include text-list-unordered-defaults;
+
+    padding: 0;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    li::before {
+      top: 9px;
+
+      @include tablet-up {
+        top: 11px; // font size is bigger
+      }
+    }
+  }
+
+  > ol {
+    @include text-list-defaults;
+    @include text-list-ordered-defaults;
+
+    padding: 0;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  > h4 {
+    margin: 16px 0 8px;
+    font-family: $font-medium;
+    letter-spacing: .5px;
+  }
+
+  @include tablet-up {
+    padding: 0 $expandable-box-padding-desktop $expandable-box-padding-desktop;
+    @include fontSize(18);
+  }
+
+  @include breakLongWords();
+}
+
+// Prevent hover-state on the header when the box is expaned
+.expandable-box--expanded {
+  .expandable-box__header {
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: transparent;
+    }
+  }
+}
+
+// Expandable can also be not expandable. Hides the expand icon if it's not already removed on render
+.expandable-box--always-open {
+  .expandable-box__body {
+    display: block;
+  }
+
+  .expandable-box__header {
+    cursor: default;
+
+    padding-bottom: 8px;
+
+    @include desktop-up {
+      padding-bottom: 12px;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $color-srf-warmgrey-50;
+    }
+  }
+
+  .expandable-box__expand-icon {
+    display: none;
+  }
+}
+
+// Take up the whole width of the parent container
+.expandable-box--fullwidth {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
