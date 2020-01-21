@@ -30,7 +30,7 @@ You're all set, start to:
 
 - Create components as `.twig` (Twig) files inside the `src` directory
 - Create Storybook stories as `.stories.js` alongside `.twig` components inside the `src` directory
-- Write some styles inside `assets/scss/styleguide.scss`
+- Write some styles inside `assets/css/main.scss`
 - Write JavaScript inside `assets/js/styleguide.js`
 - Put some `.svg` icons in the `assets/icons` directory
 - Write documentation as `.stories.mdx` (Markdown and JSX) files inside the `docs` directory.

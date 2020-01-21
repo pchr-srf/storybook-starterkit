@@ -1,22 +1,26 @@
 import { Meta, Story, Preview, Source } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import LinkTo from '@storybook/addon-links/react';
-import expandableBox from './expandable-box.twig';
-import { demoInit } from './expandable-box.js';
+import ReactDOM from 'react-dom';
+import Button from './Button';
 
-<Meta title="Atoms/Expandable-Box" />
+<Meta title="Atoms/React-Button" />
 
-# Expandable Box
+# Simple React Button
 
 
 <Preview>
   <Story name="Default">
+    <div>
+    <div id="hoidu">hurrdurr</div>
     {() => {
-      demoInit();
-      return expandableBox({
-        description: 'Content goes here'
-      });
+        console.log("wat", <Button />)
+        ReactDOM.render(
+            <Button />,
+            document.getElementById("hoidu")
+        );
     }}
+    </div>
   </Story>
 </Preview>
 

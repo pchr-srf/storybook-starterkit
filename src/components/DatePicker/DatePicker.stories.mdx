@@ -1,22 +1,16 @@
 import { Meta, Story, Preview, Source } from '@storybook/addon-docs/blocks';
 import { PropsTable } from '@storybook/components';
 import LinkTo from '@storybook/addon-links/react';
-import expandableBox from './expandable-box.twig';
-import { demoInit } from './expandable-box.js';
+import Datepicker from './Datepicker.jsx';
 
-<Meta title="Atoms/Expandable-Box" />
+<Meta title="Molecule/DatePicker" />
 
-# Expandable Box
+# DatePicker
 
 
 <Preview>
   <Story name="Default">
-    {() => {
-      demoInit();
-      return expandableBox({
-        description: 'Content goes here'
-      });
-    }}
+    <Datepicker />
   </Story>
 </Preview>
 

@@ -33,7 +33,9 @@
   "dependencies": {
     "core-js": "^3.5.0",
     "jquery": "^3.4.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "react-dom": "^16.12.0",
+    "react-flatpickr": "^3.9.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",

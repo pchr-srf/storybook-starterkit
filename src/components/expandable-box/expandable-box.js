@@ -1,6 +1,5 @@
 import { KEYCODES } from '../../assets/js/keycodes';
 import $ from 'jquery';
-import '../../assets/js/easings';
 
 let ANIMATIONDURATION = 200;
 

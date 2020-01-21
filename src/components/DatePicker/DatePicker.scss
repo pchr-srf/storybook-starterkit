@@ -1,0 +1,66 @@
+@import "../../assets/css/variables";
+@import "../../assets/css/mixins";
+@import "DatePickerFlatpickrTheme";
+
+$calendar-width: 404px;
+$calendar-width-mobile: 100%;
+
+$calendar-input-width: 276px; // 284px in design
+$calendar-input-width-mobile: calc(100% - 48px - 48px - 16px);
+
+.date-picker {
+  position: relative;
+  width: $calendar-width;
+
+  @include smartphone {
+    width: $calendar-width-mobile;
+    min-width: 288px;
+  }
+}
+
+.date-picker__arrow-left,
+.date-picker__arrow-right {
+  position: absolute;
+  z-index: 1;
+  margin: -1px 0 0 0;
+  opacity: 1;
+  transition: opacity 200ms ease-in-out;
+}
+
+.date-picker__arrow-right {
+  top: 0;
+  right: 0;
+}
+
+.date-picker__input-field {
+  width: $calendar-input-width;
+  margin: 0;
+  position: relative;
+  margin-left: 64px; // 48px button + 16px margin
+  transition: width 200ms ease-in-out, margin 200ms ease-in-out;
+
+  @include smartphone {
+    width: $calendar-input-width-mobile;
+    margin-left: 56px; // 48px button + 8px margin
+  }
+}
+
+.date-picker__input-field.active {
+  width: $calendar-width;
+  margin: 0;
+  z-index: 2;
+
+  @include smartphone {
+    width: $calendar-width-mobile;
+  }
+}
+
+.date-picker__shortcut-button {
+  display: inline-block;
+  width: calc(50% - 8px);
+  margin: 0 0 20px 16px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
